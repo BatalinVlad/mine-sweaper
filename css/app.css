@@ -1,0 +1,56 @@
+/* title section */
+
+body {
+  text-align: center;
+  color: white;
+  margin: 0px;
+  height: 100vh;
+  
+}
+
+table {
+  table-layout: fixed;
+  background-color: black;
+}
+
+
+
+h1 {
+  color: black;
+}
+
+/* --- SCORE SECTION ----------------------------------------- */
+
+.scoreValue {
+  color: aliceblue;
+}
+
+/* --------------------------------------------------------- */
+.smiley{
+  font-size: 50px;
+}
+
+.board-container table {
+  width:60%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.cell {
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+
+.flag{
+  height: 70px;
+  width: 70px;
+}
+
+.mine{
+  height: 70px;
+  width: 70px;
+}
+
