@@ -3,54 +3,121 @@
 body {
   text-align: center;
   color: white;
-  margin: 0px;
-  height: 100vh;
-  
+  background-image: url('../img/bgImg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 93vh;
+
 }
 
 table {
   table-layout: fixed;
   background-color: black;
+  width: 30%;
+  /* height: 30%; */
+
+  margin-top: 1%;
+  margin-left: 50%;
+  margin-right: 20%;
 }
 
-
-
-h1 {
-  color: black;
+.logo {
+  position: absolute;
+  width: 20%;
+  height: 30%;
+  left: 2%;
+  top: 2%;
 }
 
 /* --- SCORE SECTION ----------------------------------------- */
 
 .scoreValue {
-  color: aliceblue;
+  font-size: 30px;
+  font-style: initial;
+  font-weight: 900;
+  color: red;
+}
+/* --------------------  TIMER     ------------------------- */
+
+.timer {
+  font-size: 30px;
+  font-style: initial;
+  font-weight: 900;
+  color: red;
 }
 
-/* --------------------------------------------------------- */
-.smiley{
-  font-size: 50px;
+/* ----------------------   LIFES   ----------------------------- */
+
+.life-container {
+margin-top: 2%;
+margin-left: 52%;
+margin-right: 25%;
 }
 
-.board-container table {
-  width:60%;
-  margin-left: 20%;
-  margin-right: 20%;
+.life-container span {
+  font-size: 40px;
+  font-style: italic;
+  font-weight: 900;
+  color:red;
 }
+
+.life {
+  height: 50px;
+  width: 50px;
+}
+
+/* ------------------------------------- FACES ------------------------------------------- */
+
+.faceCell {
+  background-image: url(../img/btnCover.jpg);
+}
+
+.face {
+  height: 120px;
+  width: 130px;
+}
+
+/* ------------------------------------ CELLS -------------------------------------------- */
 
 .cell {
-  width: 150px;
-  height: 150px;
+  width: 24px;
+  height: 24px;
+  border-radius: 20%;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: serif;
 }
 
 
-.flag{
-  height: 70px;
-  width: 70px;
+.flag {
+  height: 10px;
+  width: 10px;
 }
 
-.mine{
-  height: 70px;
-  width: 70px;
+.mine {
+  height: 10px;
+  width: 10px;
 }
 
+/* ----------------------------------- buttons sector ----------------------------------------- */
+
+.buttons-container {
+  width: 50%;
+  height: 100px;
+  margin-top: 1%;
+  margin-left: 40%;
+  margin-right: 10%;
+}
+
+.difficultButton{
+  background-image: url('../img/btnCover.jpg');
+  margin: 1%;
+  border-radius: 30%;
+  font-size: 15px;
+  font-style: italic;
+  color:red;
+  font-weight: 900;
+  width: 100px;
+  height: 50px;
+}
