@@ -1,24 +1,20 @@
-var gFaceCollapse = 2
-var gScoreCollapse = 1;
-var gTimerCollapse = 1;
-
 function printTime() {
-  var elLocationForTime = document.querySelector('.timer')
+  var elLocationForTime = document.querySelector('.timer');
   elLocationForTime.innerHTML = gTimeStr;
 }
 
 function changeFace() {
-  gGame.loseOrWin = 'clickedOnEmpty'
-  printMat(gBoard, '.board-container');
+  gGame.state = 'clickedOnEmpty';
+  printBoard(gBoard, '.board-container');
   setTimeout(function () {
-    gGame.loseOrWin = ''
-    printMat(gBoard, '.board-container');
+    gGame.state = '';
+    printBoard(gBoard, '.board-container');
   }, 200)
 }
 
 //---------------------------PRINT MAT -------------------------------------------------------------------//
 
-function printMat(mat, selector) {
+function printBoard(mat, selector) {
   var strHTML = '<div class="life-container"><span>LIVES:</span>';
   for (var i = 0; i < gGame.lifeCount; i++) {
     strHTML += LIFE;
@@ -28,18 +24,18 @@ function printMat(mat, selector) {
 
   //-------------------------------------------------------header with pics---------------------------//
 
-  if (gGame.loseOrWin === '' || gGame.loseOrWin === 'win') {
-    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`
-    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()"><img src="./img/normal.png" class="face"></td>`
-    strHTML += `<td class="scoreValue" colspan="${gScoreCollapse}">${gGame.score}</td></tr>`
-  } else if (gGame.loseOrWin === 'clickedOnEmpty') {
-    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`
-    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()">'<img src="./img/clickedOn.png" class="face"></td>`
+  if (gGame.state === '' || gGame.state === 'win') {
+    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`;
+    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()"><img src="./img/normal.png" class="face"></td>`;
+    strHTML += `<td class="scoreValue" colspan="${gScoreCollapse}">${gGame.score}</td></tr>`;
+  } else if (gGame.state === 'clickedOnEmpty') {
+    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`;
+    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()">'<img src="./img/clickedOn.png" class="face"></td>`;
     strHTML += `<td class="scoreValue" colspan="${gScoreCollapse}">${gGame.score}</td></tr>`
   } else {
-    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`
-    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()"><img src="./img/dead.png" class="face"></td>`
-    strHTML += `<td class="scoreValue" colspan="${gScoreCollapse}">${gGame.score}</td></tr>`
+    strHTML += `<tr><td class="timer" colspan="${gTimerCollapse}">${gTimeStr}</td>`;
+    strHTML += `<td class="faceCell" colspan="${gFaceCollapse}" onClick="resetGame()"><img src="./img/dead.png" class="face"></td>`;
+    strHTML += `<td class="scoreValue" colspan="${gScoreCollapse}">${gGame.score}</td></tr>`;
   }
 
   // ------------------------------THE MAT ITSELF -----------------------------------------------------//
@@ -55,7 +51,7 @@ function printMat(mat, selector) {
       } else if (cell.isMarked && !cell.isShown) { // FLAGS
         strHTML += `<td style="background-color:${cell.color}; " onmousedown="cellClicked(event, ${i} , ${j})"
         class="cell">${FLAG}</td>`;
-      } else if (cell.isMine && gGame.loseOrWin === 'dead') {
+      } else if (cell.isMine && gGame.state === 'dead') {
         strHTML += `<td style="background-color:${cell.color};" class="cell">${MINE}</td>`;
       } else
         strHTML += `<td style="background-color:${cell.color};" onmousedown="cellClicked(event, ${i} , ${j})"
@@ -75,18 +71,23 @@ function showDifflcultButtons() {
   <button class="difficultButton" data-id="1" onClick="diffButtonClicked(this)">Begginer</button>
   <button class="difficultButton" data-id="2" onClick="diffButtonClicked(this)">Medium</button>
   <button class="difficultButton" data-id="3" onClick="diffButtonClicked(this)">Expert</button>
-  </div> `
-  strHTML += `<button class="help" onClick="intButtonClicked()"> Int![left:<span class="ints">${gIntsLeft}</span>] </button>`
-  strHTML += `<button class="putMines" onClick="postionsMineMenuelly()"> PUT IT YOURSELF! 
-  BOMBS:${gNumberOfMinesToPut}</button>`
-  strHTML += `<button class="undo" onClick="undoButtonClicked()">UNDO!</button>`
+  </div> `;
+  strHTML += `<button class="help" onClick="intButtonClicked()"> Int![left:<span class="ints">${gIntsLeft}</span>] </button>`;
+  strHTML += `<button class="putMines" onClick="postionsMineMenuellyButtonClicked()"> PUT IT YOURSELF! 
+  BOMBS:<span>${gNumberOfMinesToPut}</span></button>`;
+  strHTML += `<button class="undo" onClick="undoButtonClicked()">UNDO!</button>`;
+  strHTML += `<button class="safeClick" onClick="safeButtonClicked()">
+               SAFE CLICK! (<span>${gSafeClicks}</span>)</button>`;
   document.querySelector('.diffButtons').innerHTML = strHTML;
+
 }
 
 function unShownBoard() {
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[0].length; j++) {
-      gBoard[i][j].isShown = false;
+      var cell = gBoard[i][j];
+      cell.isShown = false;
+      cell.color = 'grey';
     }
   }
 }
@@ -103,19 +104,19 @@ function colorOfTheText(cell) {
       cell.innerTextColor = 'red';
       break;
     case 4:
-      cell.innerTextColor = 'hsl(266, 69%, 18%)'
+      cell.innerTextColor = 'hsl(266, 69%, 18%)';
       break;
     case 5:
-      cell.innerTextColor = 'brown'
+      cell.innerTextColor = 'brown';
       break;
     case 6:
-      cell.innerTextColor = 'rgb(108, 162, 184);'
+      cell.innerTextColor = 'rgb(108, 162, 184);';
       break;
     case 7:
-      cell.innerTextColor = 'black'
+      cell.innerTextColor = 'black';
       break;
     case 8:
-      cell.innerTextColor = 'rgb(95, 90, 90)'
+      cell.innerTextColor = 'rgb(95, 90, 90)';
       break;
     default:
       break;

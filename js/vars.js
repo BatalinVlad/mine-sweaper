@@ -1,51 +1,31 @@
-var MINE = '<img src="./img/mine.png" class="mine">'
-var CELL = ''
-var FLAG = '<img src="./img/flag.png" class="flag">'
-var LIFE = '<img src="./img/life.png" class="life">'
-
-var gAllTurns = [];
-var gNewTurn = [];
-var gIsUndo = false;
-
-var gPutMines = false;
-var gNumberOfMinesToPut = 0;
+var MINE = '<img src="./img/mine.png" class="mine">';
+var CELL = '';
+var FLAG = '<img src="./img/flag.png" class="flag">';
+var LIFE = '<img src="./img/life.png" class="life">';
 
 var gBoard = [];
 
-var gInt = 'off';
-var gIntAlreadyClicked = 0;
-var gIntsLeft = 3
-
+var gCurrLvl = 1 //for init only
 var gLevel = [{
   DIFF: 'Begginer',
   SIZE: 4,
   MINE: 2,
-  mineForEndGame: 2,
   LIFES: 1
 }, {
   DIFF: 'Medium',
   SIZE: 8,
   MINE: 12,
-  mineForEndGame: 12,
   LIFES: 2
 }, {
   DIFF: 'Expert',
   SIZE: 12,
   MINE: 30,
-  mineForEndGame: 30,
   LIFES: 3
 }];
 
-var gCurrLvl = 1
-
-var gPrevIndex = {
-  i: Infinity,
-  j: Infinity
-};
-
 var gGame = {
   isOn: true,
-  loseOrWin: '',
+  state: '',
   score: 0,
   shownCount: 0,
   markedCount: 0,
@@ -53,22 +33,40 @@ var gGame = {
   lifeCount: gLevel[gCurrLvl - 1].LIFES
 };
 
+var gPrevIndex = { //for recurtion
+  i: Infinity,
+  j: Infinity
+};
+
+var gFaceCollapse = 2; //for init only
+var gScoreCollapse = 1; //for init only
+var gTimerCollapse = 1; //for init only
+
+var gPutMines = false;
+var gMenualGameMode = false;
+var gNumberOfMinesToPut = 0;
+
+var gInt = 'off';
+var gOnInt = false;
+var gIntsLeft = 3;
+var gIntsCellToClose = [];
+
 var gTimerInterval;
 var gTimerClicked = false;
-var gTimeStr = '000'
+var gTimeStr = '000';
 
+var gAllTurns = [];
+var gUndoFirstTime = true;
 
+var gSafeClicks = 3;
 
-
+// --------------------------------------RESET-----------------------------------//
 
 
 function resetGame() {
-
-  gBoard = [];
+  gSafeClicks = 3;
 
   gAllTurns = [];
-  gNewTurn = [];
-  gIsUndo = false;
 
   gPrevIndex = {
     i: Infinity,
@@ -77,7 +75,7 @@ function resetGame() {
 
   gGame = {
     isOn: true,
-    loseOrWin: '',
+    state: '',
     score: 0,
     shownCount: 0,
     markedCount: 0,
@@ -85,37 +83,18 @@ function resetGame() {
     lifeCount: gLevel[gCurrLvl - 1].LIFES
   };
 
-  gLevel = [{
-    DIFF: 'Begginer',
-    SIZE: 4,
-    MINE: 2,
-    mineForEndGame: 2,
-    LIFES: 1
-  }, {
-    DIFF: 'Medium',
-    SIZE: 8,
-    MINE: 12,
-    mineForEndGame: 12,
-    LIFES: 2
-  }, {
-    DIFF: 'Expert',
-    SIZE: 12,
-    MINE: 30,
-    mineForEndGame: 30,
-    LIFES: 3
-  }];
-
   gTimeStr = '000';
   gTimerClicked = false;
   gFirstClick = 0;
 
   gInt = 'off';
-  gIntAlreadyClicked = 0;
-  gIntsLeft = 3
+  gOnInt = false;
+  gIntsLeft = 3;
+  gIntsCellToClose = [];
 
   gPutMines = false;
   gNumberOfMinesToPut = 0;
-
+  gMenualGameMode = false;
   clearInterval(gTimerInterval);
   init();
 }

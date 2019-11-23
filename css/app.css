@@ -124,7 +124,7 @@ table {
 }
 
 .help {
-  background-image: url('../img/btnCover.jpg');
+  background-image: url('../img/featButtonCover.jpg');
   border-radius: 30%;
   font-size: 15px;
   font-style: italic;
@@ -145,29 +145,57 @@ table {
 }
 
 .putMines {
-  background-image: url('../img/btnCover.jpg');
+  background-image: url('../img/featButtonCover.jpg');
   border-radius: 30%;
   font-size: 20px;
   font-style: italic;
-  color:red;
+  color:black;
   font-weight: 900;
-  width: 175px;
+  width: 200px;
   height: 125px;
   position: absolute;
-  left: 5%;
+  left: 3.5%;
   top: 49%;
+}
+.putMines span {
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 900;
+  color: red;
 }
 
 .undo {
-  background-image: url('../img/btnCover.jpg');
+  background-image: url('../img/featButtonCover.jpg');
   border-radius: 30%;
   font-size: 20px;
   font-style: italic;
-  color:red;
+  color:black;
   font-weight: 900;
-  width: 200px;
-  height: 150px;
+  width: 150px;
+  height: 125px;
   position: absolute;
-  left: 7%;
-  top: 66%;
+  left: 10px;
+  top: 67%;
+}
+
+
+.safeClick {
+  background-image: url('../img/featButtonCover.jpg');
+  border-radius: 30%;
+  font-size: 20px;
+  font-style: italic;
+  color: black;
+  font-weight: 900;
+  width: 150px;
+  height: 125px;
+  position: absolute;
+  left: 11%;
+  top: 67%;
+}
+
+.safeClick span {
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 900;
+  color: red;
 }
