@@ -180,6 +180,16 @@ function saveNewTurn() {
       newTurn[i][j] = newTurnObj;
     }
   }
+  var currGameData = gGame;
+  var gameData = {
+    isOn: true,
+    state: currGameData.state,
+    score: currGameData.score,
+    shownCount: currGameData.shownCount,
+    markedCount: currGameData.markedCount,
+    lifeCount: currGameData.lifeCount
+  }
+  gNewTurnGameData.push(gameData);
   gAllTurns.push(newTurn);
 }
 

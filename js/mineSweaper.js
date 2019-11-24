@@ -127,13 +127,20 @@ function undoButtonClicked() {
   if (!gAllTurns.length) return;
   if (gAllTurns.length === 1)  {  // AFTER FIRST TURND UNDO
     unShownBoard();
+    gGame.score = 0;
+    gGame.shownCount = 0;
+    gGame.isMarked = 0;
+    gNewTurnGameData.pop();
     gAllTurns.pop();
     printBoard(gBoard,'.board-container');
     return; 
   } else { // Second turn etc ...
     gAllTurns.pop(); // get rid of the curr turn 
+    gNewTurnGameData.pop();
+    gGame = gNewTurnGameData[gNewTurnGameData.length - 1];
     var turnBack = gAllTurns[gAllTurns.length - 1]; // pop the second turn 
     gBoard = turnBack.splice(0,turnBack.length); 
+    updateScore();
     printBoard(gBoard,'.board-container');
     return;
   }
@@ -150,7 +157,7 @@ function safeButtonClicked() {
 //----------------- SCORE SECTION AND GAME OVER FUNC----------------------------------------//
 
 function updateScore() {
-  if (gTimerClicked === false) gGame.shownCount++;
+  if (!gTimerClicked) gGame.shownCount++;
   gGame.score = gGame.shownCount;
   document.querySelector('.scoreValue').innerText = gGame.score;
 }

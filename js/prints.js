@@ -86,6 +86,7 @@ function unShownBoard() {
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[0].length; j++) {
       var cell = gBoard[i][j];
+      cell.isMarked = false;
       cell.isShown = false;
       cell.color = 'grey';
     }

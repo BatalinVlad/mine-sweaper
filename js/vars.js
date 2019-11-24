@@ -29,7 +29,6 @@ var gGame = {
   score: 0,
   shownCount: 0,
   markedCount: 0,
-  secsPassed: 0,
   lifeCount: gLevel[gCurrLvl - 1].LIFES
 };
 
@@ -56,7 +55,7 @@ var gTimerClicked = false;
 var gTimeStr = '000';
 
 var gAllTurns = [];
-var gUndoFirstTime = true;
+var gNewTurnGameData = [];
 
 var gSafeClicks = 3;
 
@@ -67,6 +66,7 @@ function resetGame() {
   gSafeClicks = 3;
 
   gAllTurns = [];
+  gNewTurnGameData = [];
 
   gPrevIndex = {
     i: Infinity,
@@ -79,7 +79,6 @@ function resetGame() {
     score: 0,
     shownCount: 0,
     markedCount: 0,
-    secsPassed: 0,
     lifeCount: gLevel[gCurrLvl - 1].LIFES
   };
 
